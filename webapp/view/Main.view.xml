@@ -1,0 +1,285 @@
+<mvc:View
+    controllerName="sda.glpostingapp2.controller.Main"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <content>
+            <l:VerticalLayout
+                id="containerLayout"
+                width="100%"
+            >
+                <l:BlockLayout
+                    id="BlockLayout"
+                    background="Dashboard"
+                >
+                    <l:BlockLayoutRow id="block1">
+                        <l:BlockLayoutCell id="Accent1">
+                            <HBox
+                                alignItems="Center"
+                                justifyContent="SpaceBetween"
+                                width="100%"
+                            >
+                                <VBox id="vbox1" justifyContent="End">
+                                    <Text
+                                        id="text1"
+                                        text="Upload source file"
+                                        class="largeFont"
+                                    />
+                                    <Text
+                                        id="text12"
+                                        text="Choose source file"
+                                    />
+                                </VBox>
+                                <ToolbarSpacer />
+                                <HBox>
+                                    <VBox justifyContent="End">
+                                        <Text text="Template" />
+                                        <HBox >
+                                        <Select
+                                            id="mySelect"
+                                            selectedKey="1"
+                                        >
+                                            <core:Item
+                                                key="1"
+                                                text="Expense Template"
+                                            />
+                                            <core:Item
+                                                key="2"
+                                                text="Adjustment Posting Template"
+                                            />
+                                            <core:Item
+                                                key="3"
+                                                text="Payroll Template"
+                                            />
+                                            <core:Item
+                                                key="4"
+                                                text="Reclass Template"
+                                            />
+                                        </Select>
+                                        <Button
+                                            id="btn9"
+                                            text="Upload Source File"
+                                            icon="sap-icon://upload-to-cloud"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
+                            </HBox>
+                            <!--
+                            <HBox
+                                id="hbox2"
+                                alignItems="End"
+                                justifyContent="SpaceAround"
+                                width="100%"
+                            >
+                                <HBox id="hbox8">
+                                    <u:FileUploader
+                                        id="fileUploader"
+                                        name="myFileUpload"
+                                        icon="sap-icon://upload-to-cloud"
+                                        uploadUrl="upload/"
+                                        tooltip="Upload your file to the local server"
+                                        uploadComplete="handleUploadComplete"
+                                        fileType="xslx"
+                                        placeholder="Choose a source file"
+                                    />
+                                    <Button
+                                        id="btn5"
+                                        text="Upload"
+                                        icon="sap-icon://upload-to-cloud"
+                                        type="Emphasized"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin"
+                                    />
+                                </HBox>
+                            </HBox>
+                            -->
+                        </l:BlockLayoutCell>
+                    </l:BlockLayoutRow>
+                    <l:BlockLayoutRow
+                        id="block2"
+                        accentCells="Accent1"
+                    >
+                        <l:BlockLayoutCell id="Accent2">
+                            <VBox id="vbox5">
+                                <HBox
+                                    alignItems="End"
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                >
+                                    <HBox>
+                                        <Text
+                                            id="text13"
+                                            text="Uploaded source file"
+                                            class="largeFont"
+                                        />
+                                    </HBox>
+                                    <ToolbarSpacer />
+                                    <HBox
+                                        id="hbox10"
+                                        alignItems="End"
+                                        justifyContent="SpaceAround"
+                                    >
+                                        <HBox id="vbox3">
+                                            <!--
+                                            <Text
+                                                id="text21"
+                                                text="Search Files"
+                                            />
+                                            -->
+                                            <SearchField
+                                                id="searchField"
+                                                placeholder="Search Files ..."
+                                                search=".onSearch"
+                                                liveChange=".onLiveChange"
+                                            />
+                                            <Button
+                                                id="btn132"
+                                                text="Filter"
+                                                icon="sap-icon://filter"
+                                                type="Unstyled"
+                                                press="onUploadPress"
+                                                class="sapUiSmallMarginBegin customButton"
+                                            />
+                                        </HBox>
+                                        <!--
+                                        <VBox id="vbox4">
+                                            <Text
+                                                id="text22"
+                                                text="Filter By Mode"
+                                            />
+                                            <ComboBox
+                                                id="filterMode"
+                                                width="200px"
+                                                placeholder="Select Mode"
+                                                loadItems=".onFilterModeLoadItems"
+                                                selectionChange=".onFilterChange"
+                                                items="{path: 'modeModel>/'}"
+                                            >
+                                                <core:Item
+                                                    key="{modeModel>Mode}"
+                                                    text="{modeModel>Mode}"
+                                                />
+                                            </ComboBox>
+                                        </VBox>
+
+                                        <VBox id="vbox7">
+                                            <Text
+                                                id="text23"
+                                                text="Filter By Initiator"
+                                            />
+                                            <ComboBox
+                                                id="filterInitiator"
+                                                width="200px"
+                                                placeholder="Select Initiator"
+                                                loadItems=".onInitiatorFilterLoadItems"
+                                                selectionChange=".onInitiatorFilterChange"
+                                                items="{path: 'initiatorModel>/'}"
+                                            >
+                                                <core:Item
+                                                    key="{initiatorModel>createdBy}"
+                                                    text="{initiatorModel>createdBy}"
+                                                />
+                                            </ComboBox>
+                                        </VBox>
+                                        -->
+                                    </HBox>
+                                    <!--
+                                    <Text
+                                        id="lineCounter"
+                                        text="{lineCounterModel>/lineCounter}"
+                                        class="alignRight"
+                                    />
+                                    -->
+                                </HBox>
+                            </VBox>
+                            <VBox
+                                id="vbox10"
+                                class="divider"
+                            />
+                            <VBox id="vbox11">
+                                <Table
+                                    id="journalEntriesTable"
+                                    growing="true"
+                                    growingThreshold="10"
+                                    items="{
+								        path: '/JournalEntriesPost',
+                                        sorter: { path: 'fileName', descending: false },
+                                         events: {
+                                            dataReceived: '.onDataReceived'
+                                        }
+							        }"
+                                >
+                                    <columns>
+                                        <Column>
+                                            <Text text="File Name" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Template" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Uploaded Date" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Mode" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Initiated By" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Status" />
+                                        </Column>
+                                        <Column hAlign="Right">
+                                            <Text text="Action" />
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem press="onRowPress">
+                                            <cells>
+                                                <Text text="{fileName}" />
+                                            </cells>
+                                            <cells>
+                                                <Text text="{template}" />
+                                            </cells>
+                                            <cells>
+                                                <Text text="{modifiedAt}" />
+                                            </cells>
+                                            <cells>
+                                                <Text text="{Mode}" />
+                                            </cells>
+                                            <cells>
+                                                <Text text="{createdBy}" />
+                                            </cells>
+                                            <cells>
+                                                <Text text="{PostingStatus}" />
+                                            </cells>
+                                            <cells>
+                                                <Button
+                                                    text="View File"
+                                                    type="Unstyled"
+                                                    class="sapUiSmallMarginBegin customButton"
+                                                    press="onRowPress"
+                                                />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </VBox>
+                        </l:BlockLayoutCell>
+                    </l:BlockLayoutRow>
+                </l:BlockLayout>
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

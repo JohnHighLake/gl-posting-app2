@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="JournalEntriesPostService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="JournalEntriesPost" EntityType="JournalEntriesPostService.JournalEntriesPost">
+                    <NavigationPropertyBinding Path="JournalEntries" Target="JournalEntry"/>
+                    <NavigationPropertyBinding Path="PostingStatus" Target="PostingStatus"/>
+                </EntitySet>
+                <EntitySet Name="JournalEntry" EntityType="JournalEntriesPostService.JournalEntry">
+                    <NavigationPropertyBinding Path="JournalEntriesPost" Target="JournalEntriesPost"/>
+                    <NavigationPropertyBinding Path="JournalEntryItems" Target="JournalEntryItem"/>
+                </EntitySet>
+                <EntitySet Name="JournalEntryItem" EntityType="JournalEntriesPostService.JournalEntryItem">
+                    <NavigationPropertyBinding Path="JournalEntry" Target="JournalEntry"/>
+                </EntitySet>
+                <EntitySet Name="PostingStatus" EntityType="JournalEntriesPostService.PostingStatus">
+                    <NavigationPropertyBinding Path="texts" Target="PostingStatus_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="PostingStatus_texts"/>
+                </EntitySet>
+                <EntitySet Name="PostingStatus_texts" EntityType="JournalEntriesPostService.PostingStatus_texts"/>
+            </EntityContainer>
+            <EntityType Name="JournalEntriesPost">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="20"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="20"/>
+                <NavigationProperty Name="JournalEntries" Type="Collection(JournalEntriesPostService.JournalEntry)" Partner="JournalEntriesPost">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="PostingStatus" Type="JournalEntriesPostService.PostingStatus">
+                    <ReferentialConstraint Property="PostingStatus_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="PostingStatus_code" Type="Edm.String" MaxLength="20"/>
+                <Property Name="workflowInstanceID" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="JournalEntry">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="JournalEntriesPost" Type="JournalEntriesPostService.JournalEntriesPost" Partner="JournalEntries">
+                    <ReferentialConstraint Property="JournalEntriesPost_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="JournalEntriesPost_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="JournalEntryItems" Type="Collection(JournalEntriesPostService.JournalEntryItem)" Partner="JournalEntry">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <Property Name="createdByUser" Type="Edm.String" MaxLength="20"/>
+                <Property Name="companyCode" Type="Edm.String" MaxLength="20"/>
+                <Property Name="journalEntryType" Type="Edm.String" MaxLength="2"/>
+                <Property Name="businessTransactionType" Type="Edm.String" MaxLength="20"/>
+                <Property Name="originalReferenceDocumentType" Type="Edm.String" MaxLength="20"/>
+                <Property Name="journalEntryDate" Type="Edm.Date"/>
+                <Property Name="PostingDate" Type="Edm.Date"/>
+                <Property Name="documentHeaderText" Type="Edm.String" MaxLength="25"/>
+                <Property Name="transactionCurrency" Type="Edm.String" MaxLength="20"/>
+                <Property Name="referenceDocumentNumber" Type="Edm.String" MaxLength="16"/>
+                <Property Name="accountingDocument" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="JournalEntryItem">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <NavigationProperty Name="JournalEntry" Type="JournalEntriesPostService.JournalEntry" Partner="JournalEntryItems">
+                    <ReferentialConstraint Property="JournalEntry_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="JournalEntry_ID" Type="Edm.Guid"/>
+                <Property Name="glaccount" Type="Edm.String" MaxLength="10"/>
+                <Property Name="itemText" Type="Edm.String" MaxLength="50"/>
+                <Property Name="debit" Type="Edm.String"/>
+                <Property Name="credit" Type="Edm.String"/>
+                <Property Name="costCenter" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="PostingStatus">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(JournalEntriesPostService.PostingStatus_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="JournalEntriesPostService.PostingStatus_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="PostingStatus_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+            </EntityType>
+            <Annotations Target="JournalEntriesPostService.JournalEntriesPost/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntriesPost/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Created On"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntriesPost/modifiedAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="Changed On"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntriesPost/PostingStatus">
+                <Annotation Term="Common.Label" String="PostingStatus"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntriesPost/PostingStatus_code">
+                <Annotation Term="Common.Label" String="PostingStatus"/>
+                <Annotation Term="Common.ValueList">
+                    <Record Type="Common.ValueListType">
+                        <PropertyValue Property="Label" String="PostingStatus"/>
+                        <PropertyValue Property="CollectionPath" String="PostingStatus"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="PostingStatus_code"/>
+                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntry/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.JournalEntryItem/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="name"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus_texts/locale">
+                <Annotation Term="Common.Label" String="Language Code"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus_texts/name">
+                <Annotation Term="Common.Label" String="Name"/>
+            </Annotations>
+            <Annotations Target="JournalEntriesPostService.PostingStatus_texts/descr">
+                <Annotation Term="Common.Label" String="Description"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

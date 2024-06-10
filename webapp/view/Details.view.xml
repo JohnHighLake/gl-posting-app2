@@ -1,0 +1,410 @@
+<mvc:View
+    controllerName="sda.glpostingapp2.controller.Details"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <l:VerticalLayout
+                id="containerLayout"
+                width="100%"
+            >
+                <l:BlockLayout
+                    id="BlockLayout"
+                    background="Dashboard"
+                >
+                    <l:BlockLayoutRow>
+                        <l:BlockLayoutCell id="Accent1">
+                            <VBox id="vbox1">
+                                <Text
+                                    id="text1"
+                                    text="Expense Source File"
+                                    class="largeFont"
+                                />
+                            </VBox>
+                            <VBox
+                                id="vbox6"
+                                class="divider"
+                            />
+                            <HBox
+                                id="hbox2"
+                                alignItems="Center"
+                                justifyContent="SpaceBetween"
+                                width="100%"
+                            >
+                                <HBox>
+                                    <Button
+                                        id="btn5"
+                                        text="Simulate"
+                                        icon="sap-icon://simulate"
+                                        type="Unstyled"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin customButton"
+                                    />
+                                    <Button
+                                        id="btn6"
+                                        text="Park"
+                                        icon="sap-icon://repost"
+                                        type="Unstyled"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin customButton"
+                                    />
+                                    <Button
+                                        id="btn7"
+                                        text="Post"
+                                        icon="sap-icon://repost"
+                                        type="Unstyled"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin customButton"
+                                    />
+                                </HBox>
+                                <ToolbarSpacer />
+                                <HBox justifyContent="Center">
+                                    <Button
+                                        id="btn8"
+                                        text="Cancel"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin"
+                                    />
+                                    <Button
+                                        id="btn10"
+                                        text="More"
+                                        icon="sap-icon://navigation-down-arrow"
+                                        type="Unstyled"
+                                        press="onUploadPress"
+                                        class="sapUiSmallMarginBegin customButton"
+                                    />
+<!--
+                                    <MenuButton
+                                        text="More"
+                                        defaultAction="onDefaultAction"
+                                        beforeMenuOpen="onBeforeMenuOpen"
+                                        useDefaultActionOnly="true"
+                                        menuPosition="RightBottom"
+                                        class="sapUiSmallMarginBegin"
+                                        type="Emphasized"
+                                    >
+                                        <menu>
+                                            <Menu itemSelected="onMenuAction">
+                                                <MenuItem
+                                                    text="Edit"
+                                                    icon="sap-icon://edit"
+                                                />
+                                                <MenuItem
+                                                    text="Save"
+                                                    icon="sap-icon://save"
+                                                />
+                                                <MenuItem
+                                                    text="Open"
+                                                    icon="sap-icon://open-folder"
+                                                />
+                                            </Menu>
+                                        </menu>
+                                    </MenuButton>
+                                    -->
+                                </HBox>
+                            </HBox>
+                        </l:BlockLayoutCell>
+                    </l:BlockLayoutRow>
+
+                    <l:BlockLayoutRow>
+                        <l:BlockLayoutCell id="Accent2">
+                            <VBox id="vbox5">
+                                <HBox
+                                    id="hbox3"
+                                    alignItems="Center"
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                >
+                                    <HBox>
+                                        <Text
+                                            id="text13"
+                                            text="Input File Info"
+                                            class="largeFont"
+                                        />
+                                    </HBox>
+                                    <ToolbarSpacer />
+                                    <HBox>
+                                        <SearchField
+                                            id="searchField"
+                                            placeholder="Search Files ..."
+                                            search=".onSearch"
+                                            liveChange=".onLiveChange"
+                                        />
+
+                                        <Button
+                                            id="btn13"
+                                            text="Filter"
+                                            icon="sap-icon://filter"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                    </HBox>
+                                </HBox>
+                            </VBox>
+                            <VBox
+                                id="vbox10"
+                                class="divider"
+                            />
+                            <VBox>
+                                <ScrollContainer
+                                    width="100%"
+                                    horizontal="true"
+                                    vertical="true"
+                                >
+                                    <Table
+                                        id="inputFileInfoTable"
+                                        fixedLayout="true"
+                                    >
+                                        <columns>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Document Type" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Document Date" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Posting Date" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Service Period" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Company Code" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Entry Creator" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Row #" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Company Code" />
+                                            </Column>
+                                        </columns>
+                                    </Table>
+                                </ScrollContainer>
+                            </VBox>
+                        </l:BlockLayoutCell>
+                    </l:BlockLayoutRow>
+
+                    <l:BlockLayoutRow>
+                        <l:BlockLayoutCell id="Accent3">
+                            <VBox id="vbox15">
+                                <HBox
+                                    id="hbox5"
+                                    alignItems="Center"
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                >
+                                    <HBox>
+                                        <Text
+                                            id="text113"
+                                            text="SAP Posting - Parking Lines"
+                                            class="largeFont"
+                                        />
+                                    </HBox>
+                                    <ToolbarSpacer />
+                                    <HBox>
+                                        <SearchField
+                                            id="searchField2"
+                                            placeholder="Search Documents ..."
+                                            search=".onSearch"
+                                            liveChange=".onLiveChange"
+                                        />
+
+                                        <Button
+                                            id="btn20"
+                                            text="Add Row"
+                                            icon="sap-icon://sys-add"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                        <Button
+                                            id="btn21"
+                                            text="Copy"
+                                            icon="sap-icon://copy"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                        <Button
+                                            id="btn22"
+                                            text="Delete"
+                                            icon="sap-icon://delete"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                        <Button
+                                            id="btn23"
+                                            text="Filter"
+                                            icon="sap-icon://filter"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                        <Button
+                                            id="btn24"
+                                            text="Export"
+                                            icon="sap-icon://action"
+                                            type="Unstyled"
+                                            press="onUploadPress"
+                                            class="sapUiSmallMarginBegin customButton"
+                                        />
+                                    </HBox>
+                                </HBox>
+                            </VBox>
+                            <VBox
+                                id="vbox110"
+                                class="divider"
+                            />
+                            <VBox>
+                                <ScrollContainer
+                                    width="100%"
+                                    horizontal="true"
+                                    vertical="true"
+                                >
+                                    <Table
+                                        id="sapPostingTable"
+                                        fixedLayout="true"
+                                    >
+                                        <columns>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="60px"
+                                            >
+                                                <Text text="Status" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Reference #" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="120px"
+                                            >
+                                                <Text text="Document Type" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="120px"
+                                            >
+                                                <Text text="Company Code" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="120px"
+                                            >
+                                                <Text text="Document Date" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Posting Date" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="GL Account" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Item Text" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Row #" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Messages" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="SAP Doc #" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="100px"
+                                            >
+                                                <Text text="Fiscal Year" />
+                                            </Column>
+                                        </columns>
+                                    </Table>
+                                </ScrollContainer>
+                            </VBox>
+                        </l:BlockLayoutCell>
+                    </l:BlockLayoutRow>
+                </l:BlockLayout>
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

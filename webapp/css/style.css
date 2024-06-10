@@ -1,0 +1,66 @@
+/* Enter your custom styles here */
+.largeFont {
+    font-size: 20px; /* You can adjust the font size as needed */
+  }
+  
+  .mediumFont {
+    font-size: 16px;
+  }
+  
+  .smallFont {
+    font-size: 12px;
+  }
+  
+.divider {
+    width: 100%;
+    border-bottom: 1px solid #b6b6b6; /* Adjust the color and thickness as needed */
+    margin: 10px 0; /* Adjust the spacing as needed */
+  }
+
+.alignRight {
+  margin-left: auto;
+}
+
+/* Right align cell data */
+.tableCellRight {
+  text-align: right;
+  width: 100%; /* Ensure the text takes the full width for proper alignment */
+}
+
+/*********************************************************************************************/
+
+/* Custom button styling */
+.customButton {
+  background-color: #eebd1e !important; /* Green background */
+  color: black !important; /* White text */
+  border: none !important; /* Remove border */
+  border-radius: 8px !important; /* Rounded corners */
+  box-shadow: none !important; /* Remove default box-shadow */
+  padding: 1px 20px 1px 10px !important; /* Add padding for better appearance */
+}
+
+/* Ensure icon and text are properly colored */
+.customButton .sapMBtnInner {
+  color: black !important; /* Ensure text is white */
+}
+
+.customButton .sapMBtnIcon {
+  color: black !important; /* Ensure icon is white */
+}
+
+/* Change the hover and active states */
+.customButton:hover {
+  background-color: #d1a619 !important; /* Darker green on hover */
+}
+
+.customButton:active {
+  background-color: #eebd1e !important; /* Even darker green when active */
+}
+
+/* Remove any default margin if necessary */
+.customButton.sapUiSmallMarginBegin {
+  margin: 10 !important;
+}
+
+
+
