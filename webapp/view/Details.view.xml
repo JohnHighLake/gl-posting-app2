@@ -85,7 +85,7 @@
                                         press="onUploadPress"
                                         class="sapUiSmallMarginBegin customButton"
                                     />
-<!--
+                                    <!--
                                     <MenuButton
                                         text="More"
                                         defaultAction="onDefaultAction"
@@ -167,6 +167,9 @@
                                     <Table
                                         id="inputFileInfoTable"
                                         fixedLayout="true"
+                                        items="{
+								            path: '/items'
+							        }"
                                     >
                                         <columns>
                                             <Column
@@ -212,6 +215,35 @@
                                                 <Text text="Entry Creator" />
                                             </Column>
                                         </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text
+                                                        text="{journalEntryType}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{journalEntryDate}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{PostingDate}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{documentHeaderText}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{companyCode}"
+                                                    />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
                                     </Table>
                                 </ScrollContainer>
                             </VBox>
@@ -299,6 +331,9 @@
                                     <Table
                                         id="sapPostingTable"
                                         fixedLayout="true"
+                                        items="{
+								            path: '/items'
+							        }"
                                     >
                                         <columns>
                                             <Column
@@ -357,7 +392,7 @@
                                             >
                                                 <Text text="Item Text" />
                                             </Column>
-                                            
+
                                             <!--
                                             <Column
                                                 minScreenWidth="600px"
@@ -390,6 +425,64 @@
                                                 <Text text="Fiscal Year" />
                                             </Column>
                                         </columns>
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <Text
+                                                        text="{ 
+                                                            path: 'sapError', 
+                                                            formatter: '.formatter.formatStatusText' }"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{referenceDocumentNumber}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{journalEntryType}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{companyCode}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{journalEntryDate}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{PostingDate}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text text="{glaccount}" />
+                                                </cells>
+                                                <cells>
+                                                    <Text text="{itemText}" />
+                                                </cells>
+                                                <cells>
+                                                    <Button
+                                                        text="View"
+                                                        type="Unstyled"
+                                                        class="sapUiSmallMarginBegin customButton"
+                                                        press="onViewSAPMessage"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{accountingDocument}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text text="{fiscalYear}" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
                                     </Table>
                                 </ScrollContainer>
                             </VBox>

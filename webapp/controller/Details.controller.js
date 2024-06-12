@@ -3,12 +3,15 @@ sap.ui.define([
     "sap/ui/core/routing/History",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "../model/formatter"
 ],
-    function (Controller, History, JSONModel, Fragment, MessageToast) {
+    function (Controller, History, JSONModel, Fragment, MessageToast, formatter) {
         "use strict";
 
         return Controller.extend("sda.glpostingapp2.controller.Details", {
+            formatter: formatter,
+
             onInit: function () {
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.getRoute("Details").attachPatternMatched(this._onObjectMatched, this);
@@ -117,9 +120,11 @@ sap.ui.define([
                                     });
                                 });
                             });
-
-                            oJSONModel.setData(aFlattenedData);
-                            oInputTable.setModel(oJSONModel);
+                            oJSONModel.setData({items: aFlattenedData});
+                            that.getView().setModel(oJSONModel);
+                            //oInputTable.setModel(oJSONModel);
+                            
+                            /*
                             oInputTable.bindItems({
                                 path: "/",
                                 template: new sap.m.ColumnListItem({
@@ -132,7 +137,9 @@ sap.ui.define([
                                     ]
                                 })
                             });
+                            */
 
+                            /*
                             oPostingTable.setModel(oJSONModel);
                             oPostingTable.bindItems({
                                 path: "/",
@@ -170,7 +177,7 @@ sap.ui.define([
                                     ]
                                 })
                             });
-
+                            */
                         });
                     }
                 });
