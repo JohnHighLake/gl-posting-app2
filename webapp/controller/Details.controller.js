@@ -12,6 +12,10 @@ sap.ui.define([
             onInit: function () {
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.getRoute("Details").attachPatternMatched(this._onObjectMatched, this);
+
+                // Create a model to hold the order ID
+                this.oJournalModel = new JSONModel();
+                this.getView().setModel(this.oJournalModel, "journal");
             },
 
             onNavBack: function () {
@@ -38,6 +42,10 @@ sap.ui.define([
             _onObjectMatched: function (oEvent) {
                 var sObjId = oEvent.getParameter("arguments").journalEntriesPostId;
                 console.log("Received JournalEntriesPost ID: ", sObjId);
+
+                
+                this.oJournalModel.setData({ journalId: sObjId });
+
                 //var oTable = this.byId("journalEntriesTable");
                 //oTable.bindElement("/JournalEntriesPost(" + sObjId + ")");
                 this._fetchAndBindData(sObjId);
@@ -47,7 +55,7 @@ sap.ui.define([
                 var oButton = oEvent.getSource();
                 var oBindingContext = oButton.getBindingContext();
                 var sapMessage = oBindingContext.getProperty("sapError");
-    
+
                 if (!this._oSAPMessagePopup) {
                     Fragment.load({
                         id: this.getView().getId(),
@@ -131,9 +139,9 @@ sap.ui.define([
                                 template: new sap.m.ColumnListItem({
                                     cells: [
                                         //new sap.m.Text({ text: "{dump}" }),
-                                        new sap.m.Text({ 
-                                            text: { 
-                                                parts: ["sapError"], 
+                                        new sap.m.Text({
+                                            text: {
+                                                parts: ["sapError"],
                                                 formatter: function (sapError) {
                                                     return sapError ? "Error" : "Success";
                                                 }
@@ -145,7 +153,7 @@ sap.ui.define([
                                                 })
                                             ]
                                         }).addStyleClass("{= ${sapError} ? 'errorText' : 'successText'}"),
-                                        
+
                                         new sap.m.Text({ text: "{referenceDocumentNumber}" }),
                                         new sap.m.Text({ text: "{journalEntryType}" }),
                                         new sap.m.Text({ text: "{companyCode}" }),
@@ -153,9 +161,9 @@ sap.ui.define([
                                         new sap.m.Text({ text: "{PostingDate}" }),
                                         new sap.m.Text({ text: "{glaccount}" }),
                                         new sap.m.Text({ text: "{itemText}" }),
-                                        
+
                                         //new sap.m.Text({ text: "{sapError}" }),
-                                        new sap.m.Button({ text: "View", type: "Unstyled", press:that.onViewSAPMessage.bind(that)}).addStyleClass("sapUiSmallMarginBegin customButton"),
+                                        new sap.m.Button({ text: "View", type: "Unstyled", press: that.onViewSAPMessage.bind(that) }).addStyleClass("sapUiSmallMarginBegin customButton"),
 
                                         new sap.m.Text({ text: "{accountingDocument}" }),
                                         new sap.m.Text({ text: "{fiscalYear}" })
@@ -174,8 +182,8 @@ sap.ui.define([
 
             onSimulatePress: function (oEvent) {
                 var sBaseUrl = "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/sap/journalentry/simulate";
-                var sOrderId = "45d561d5-72a7-4d04-8a14-439ec34b8288";
-                var sUrl = sBaseUrl + "/" + sOrderId;
+                var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                var sUrl = sBaseUrl + "/" + sJournalId;
 
                 var oFormData = new FormData();
                 oFormData.append("updatedByUser", "John");
@@ -187,90 +195,51 @@ sap.ui.define([
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        MessageToast.show("File uploaded successfully.");
-                        this._oUploadDialog.close();
+                        MessageToast.show("Simulation Successful: " + JSON.stringify(response));
                         this._refreshTable();
                     }.bind(this),
                     error: function (error) {
-                        MessageToast.show("File upload failed.");
+                        var errorMessage = error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error.statusText;
+                        MessageToast.show("Simulation failed: " + errorMessage);
                     }
                 });
+            },
 
-                /*
-                var oPayload = {
-                    updatedByUser: "John"
-                };
-                
-                $.ajax({
-                    url: sUrl,
-                    type: "POST",
-                    data: JSON.stringify(oPayload),
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        MessageToast.show("API call successful: " + data);
-                        //this._oUploadDialog.close();
-                        //this._refreshTable();
-                    }.bind(this),
-                    error: function (error) {
-                        MessageToast.show("API call failed: " + error);
-                    }
-                });
-                */
-                /*
-                $.ajax({
-                    url: sUrl,
-                    method: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(oPayload),
-                    success: function (data) {
-                        MessageToast.show("API call successful: " + data);
-                        console.log(data); // Handle the response data as needed
-                    },
-                    error: function (error) {
-                        MessageToast.show("API call failed: " + error);
-                        console.error(error); // Handle the error as needed
-                    }
-                });
-                */
+            _refreshTable: function () {
+                // Assuming the table is bound to an OData model
+               
+                var oTable = this.byId("inputFileInfoTable");
+                var oBinding = oTable.getBinding("items");
+                oBinding.refresh();
+
+                oTable = this.byId("sapPostingTable");
+                oBinding = oTable.getBinding("items");
+                oBinding.refresh();
             },
 
             onPostPress: function () {
-                /*
-                var oFileUploader = this.byId("fileUploader");
-                var oFile = oFileUploader.oFileUpload.files[0];
-    
-                if (!oFile) {
-                    MessageToast.show("Please choose a file first.");
-                    return;
-                }
-    
-                var createdByUser = this.byId("createdByUser").getValue();
-                // Retrieve other parameters as needed
-    
+                var sBaseUrl = "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/sap/journalentry/post";
+                var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                var sUrl = sBaseUrl + "/" + sJournalId;
+
                 var oFormData = new FormData();
-                oFormData.append("excelFile", oFile);
-                oFormData.append("createdByUser", createdByUser);
-                oFormData.append("template", "expense");
-                oFormData.append("mode", "online");
-                // Append other parameters to FormData
-    
+                oFormData.append("updatedByUser", "John");
+
                 $.ajax({
-                    url: "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/journalentry/upload",
+                    url: sUrl,
                     type: "POST",
                     data: oFormData,
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        MessageToast.show("File uploaded successfully.");
-                        this._oUploadDialog.close();
+                        MessageToast.show("Simulation Successful: " + JSON.stringify(response));
                         this._refreshTable();
                     }.bind(this),
                     error: function (error) {
-                        MessageToast.show("File upload failed.");
+                        var errorMessage = error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error.statusText;
+                        MessageToast.show("Simulation failed: " + errorMessage);
                     }
                 });
-                */
             }
         });
     });

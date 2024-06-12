@@ -17,6 +17,16 @@ sap.ui.define([
                 });
                 this.getView().setModel(oViewModel, "lineCounterModel");
                 //this._updateTotalCount();
+
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.attachRouteMatched(this._onRouteMatched, this);
+            },
+
+            _onRouteMatched: function (oEvent) {
+                var sRouteName = oEvent.getParameter("name");
+                if (sRouteName === "RouteMain") {
+                  this._refreshTable();
+                }
             },
 
             onSearch: function (oEvent) {
