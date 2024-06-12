@@ -69,7 +69,7 @@
                                             text="Upload Source File"
                                             icon="sap-icon://upload-to-cloud"
                                             type="Unstyled"
-                                            press="onUploadPress"
+                                            press="onOpenUploadDialog"
                                             class="sapUiSmallMarginBegin customButton"
                                         />
                                         </HBox>
@@ -212,10 +212,11 @@
                                 <Table
                                     id="journalEntriesTable"
                                     growing="true"
-                                    growingThreshold="10"
+                                    growingScrollToLoad="true"
+                                    growingThreshold="20"
                                     items="{
 								        path: '/JournalEntriesPost',
-                                        sorter: { path: 'fileName', descending: false },
+                                        sorter: { path: 'modifiedAt', descending: true },
                                          events: {
                                             dataReceived: '.onDataReceived'
                                         }
@@ -256,13 +257,13 @@
                                                 <Text text="{modifiedAt}" />
                                             </cells>
                                             <cells>
-                                                <Text text="{Mode}" />
+                                                <Text text="{mode}" />
                                             </cells>
                                             <cells>
                                                 <Text text="{createdBy}" />
                                             </cells>
                                             <cells>
-                                                <Text text="{PostingStatus}" />
+                                                <Text text="{postingStatus}" />
                                             </cells>
                                             <cells>
                                                 <Button

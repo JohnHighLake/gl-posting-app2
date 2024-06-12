@@ -62,5 +62,19 @@
   margin: 10 !important;
 }
 
+.dialogContentPadding {
+  padding: 20px;
+}
 
+.textPadding {
+  padding: 20px;
+}
+
+.successText {
+  color: green;
+}
+
+.errorText {
+  color: red;
+}
 

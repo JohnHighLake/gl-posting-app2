@@ -1,0 +1,41 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+    <Dialog
+        id="uploadDialog"
+        title="Upload File"
+        draggable="true"
+        resizable="true">
+        <content>
+            <VBox class="dialogContentPadding">
+                <u:FileUploader
+                    id="fileUploader"
+                    name="myFileUpload"
+                    placeholder="Choose a file..."
+                    fileType="xlsx, xls, csv"
+                    class="sapUiSmallMarginBegin"
+                    change="onFileChange"/>
+                <Label text="Uploaded By" />
+                <Input id="createdByUser" />
+                <!-- Add more input fields as needed -->
+            </VBox>
+        </content>
+        <beginButton>
+            <Button
+                text="Upload"
+                icon="sap-icon://upload-to-cloud"
+                type="Unstyled"
+                class="sapUiSmallMarginBegin customButton"
+                press="onUploadPress"/>
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                type="Unstyled"
+                class="sapUiSmallMarginBegin customButton"
+                press="onClosePress"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

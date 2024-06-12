@@ -47,9 +47,10 @@
                                         text="Simulate"
                                         icon="sap-icon://simulate"
                                         type="Unstyled"
-                                        press="onUploadPress"
+                                        press="onSimulatePress"
                                         class="sapUiSmallMarginBegin customButton"
                                     />
+                                    <!--
                                     <Button
                                         id="btn6"
                                         text="Park"
@@ -58,12 +59,13 @@
                                         press="onUploadPress"
                                         class="sapUiSmallMarginBegin customButton"
                                     />
+                                    -->
                                     <Button
                                         id="btn7"
                                         text="Post"
                                         icon="sap-icon://repost"
                                         type="Unstyled"
-                                        press="onUploadPress"
+                                        press="onPostPress"
                                         class="sapUiSmallMarginBegin customButton"
                                     />
                                 </HBox>
@@ -209,20 +211,6 @@
                                             >
                                                 <Text text="Entry Creator" />
                                             </Column>
-                                            <Column
-                                                minScreenWidth="600px"
-                                                demandPopin="false"
-                                                width="150px"
-                                            >
-                                                <Text text="Row #" />
-                                            </Column>
-                                            <Column
-                                                minScreenWidth="600px"
-                                                demandPopin="false"
-                                                width="150px"
-                                            >
-                                                <Text text="Company Code" />
-                                            </Column>
                                         </columns>
                                     </Table>
                                 </ScrollContainer>
@@ -242,7 +230,7 @@
                                     <HBox>
                                         <Text
                                             id="text113"
-                                            text="SAP Posting - Parking Lines"
+                                            text="SAP Posting Lines"
                                             class="largeFont"
                                         />
                                     </HBox>
@@ -316,7 +304,7 @@
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
-                                                width="60px"
+                                                width="100px"
                                             >
                                                 <Text text="Status" />
                                             </Column>
@@ -369,6 +357,8 @@
                                             >
                                                 <Text text="Item Text" />
                                             </Column>
+                                            
+                                            <!--
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
@@ -376,6 +366,8 @@
                                             >
                                                 <Text text="Row #" />
                                             </Column>
+                                            -->
+
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"

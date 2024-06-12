@@ -2,9 +2,11 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator",
+    "sap/ui/core/Fragment",
+    "sap/m/MessageToast"
 ],
-    function (Controller, JSONModel, Filter, FilterOperator) {
+    function (Controller, JSONModel, Filter, FilterOperator, Fragment, MessageToast) {
         "use strict";
 
         return Controller.extend("sda.glpostingapp2.controller.Main", {
@@ -191,8 +193,70 @@ sap.ui.define([
                 oBinding.filter(aFilters);
             },
 
+            onOpenUploadDialog: function () {
+                //this.getOwnerComponent().getRouter().navTo("Details");
+
+                if (!this._oUploadDialog) {
+                    Fragment.load({
+                        id: this.getView().getId(),
+                        name: "sda.glpostingapp2.view.UploadDialog",
+                        controller: this
+                    }).then(function (oDialog) {
+                        this._oUploadDialog = oDialog;
+                        this.getView().addDependent(this._oUploadDialog);
+                        this._oUploadDialog.open();
+                    }.bind(this));
+                } else {
+                    this._oUploadDialog.open();
+                }
+            },
+
             onUploadPress: function () {
-                this.getOwnerComponent().getRouter().navTo("Details");
+                var oFileUploader = this.byId("fileUploader");
+                var oFile = oFileUploader.oFileUpload.files[0];
+    
+                if (!oFile) {
+                    MessageToast.show("Please choose a file first.");
+                    return;
+                }
+    
+                var createdByUser = this.byId("createdByUser").getValue();
+                // Retrieve other parameters as needed
+    
+                var oFormData = new FormData();
+                oFormData.append("excelFile", oFile);
+                oFormData.append("createdByUser", createdByUser);
+                oFormData.append("template", "expense");
+                oFormData.append("mode", "online");
+                // Append other parameters to FormData
+    
+                $.ajax({
+                    url: "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/journalentry/upload",
+                    //url: "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/sap/journalentry/post",
+                    type: "POST",
+                    data: oFormData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        MessageToast.show("File uploaded successfully.");
+                        this._oUploadDialog.close();
+                        this._refreshTable();
+                    }.bind(this),
+                    error: function (error) {
+                        MessageToast.show("File upload failed.");
+                    }
+                });
+            },
+
+            _refreshTable: function () {
+                // Assuming the table is bound to an OData model
+                var oTable = this.byId("journalEntriesTable");
+                var oBinding = oTable.getBinding("items");
+                oBinding.refresh();
+            },
+
+            onClosePress: function () {
+                this._oUploadDialog.close();
             },
 
             onRowPress: function (oEvent) {

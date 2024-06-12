@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="sapMessagePopup"
+        title="SAP Message"
+        contentWidth="400px"
+    >
+        <content>
+            <VBox class="textPadding">
+                <Text
+                    id="sapMessage"
+                    wrapping="true"
+                />
+            </VBox>
+        </content>
+        <endButton>
+            <Button
+                text="Close"
+                press="onCloseSAPMessagePopup"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
