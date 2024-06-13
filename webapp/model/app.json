@@ -1,0 +1,9 @@
+{
+	"Metadata" : {
+		"uploadSourceFile" : "Upload source file"
+	},
+	"CurrentStatus":{
+		"journalEntriesPostId": "",
+		"mode": "InProgress"
+	}
+}

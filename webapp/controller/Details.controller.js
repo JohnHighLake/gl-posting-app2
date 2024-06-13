@@ -16,7 +16,20 @@ sap.ui.define([
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.getRoute("Details").attachPatternMatched(this._onObjectMatched, this);
 
-                // Create a model to hold the order ID
+                var appMode = this.getOwnerComponent().getModel("app").getProperty("/CurrentStatus/mode");
+                console.log("Current mode: " + appMode);
+
+                const oDetailsData = {
+                    journalEntriesPost : {
+                       ID : "",
+                       createdBy: "",
+                       postingStatus: "",
+                       simulationMode: ""
+                    }
+                };
+                const oDetailsModel = new JSONModel(oDetailsData);
+                this.getView().setModel(oDetailsModel, "Details");
+                
                 this.oJournalModel = new JSONModel();
                 this.getView().setModel(this.oJournalModel, "journal");
             },
@@ -81,6 +94,7 @@ sap.ui.define([
                 var oInputTable = this.byId("inputFileInfoTable");
                 var oPostingTable = this.byId("sapPostingTable");
                 var oJSONModel = new JSONModel();
+                var oDetailsModel = this.getView().getModel("Details");
                 var that = this;
 
                 // Bind the context for the JournalEntriesPost
@@ -89,6 +103,10 @@ sap.ui.define([
                 // Once the context is available, fetch JournalEntries and JournalEntryItems
                 oContextBinding.requestObject().then(function (oContextData) {
                     if (oContextData) {
+                        oDetailsModel.setProperty("/journalEntriesPost/ID", oContextData.ID);
+                        oDetailsModel.setProperty("/journalEntriesPost/createdBy", oContextData.createdBy);
+                        oDetailsModel.setProperty("/journalEntriesPost/postingStatus", oContextData.postingStatus);
+                        oDetailsModel.setProperty("/journalEntriesPost/simulationMode", oContextData.simulationMode);
                         oModel.bindList("/JournalEntriesPost(" + sJournalEntryId + ")/JournalEntries", null, null, null, {
                             "$expand": "JournalEntryItems"
                         }).requestContexts().then(function (aJournalEntryContexts) {
@@ -116,6 +134,7 @@ sap.ui.define([
                                         itemText: oItem.itemText,
                                         debit: oItem.debit,
                                         credit: oItem.credit,
+                                        rowNumber: oItem.rowNumber,
                                         costCenter: oItem.costCenter
                                     });
                                 });
@@ -189,11 +208,13 @@ sap.ui.define([
 
             onSimulatePress: function (oEvent) {
                 var sBaseUrl = "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/sap/journalentry/simulate";
-                var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                //var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                var sJournalId = this.getView().getModel("Details").getProperty("/journalEntriesPost/ID");
+                var sCreatedBy = this.getView().getModel("Details").getProperty("/journalEntriesPost/createdBy");
                 var sUrl = sBaseUrl + "/" + sJournalId;
 
                 var oFormData = new FormData();
-                oFormData.append("updatedByUser", "John");
+                oFormData.append("updatedByUser", sCreatedBy);
 
                 $.ajax({
                     url: sUrl,
@@ -203,6 +224,7 @@ sap.ui.define([
                     contentType: false,
                     success: function (response) {
                         MessageToast.show("Simulation Successful: " + JSON.stringify(response));
+                        this.getOwnerComponent().getModel("app").setProperty("/CurrentStatus/mode", "Simulation");
                         this._refreshTable();
                     }.bind(this),
                     error: function (error) {
@@ -226,11 +248,13 @@ sap.ui.define([
 
             onPostPress: function () {
                 var sBaseUrl = "https://journalentry-api-nice-jackal-tb.cfapps.us10.hana.ondemand.com/v1/sap/journalentry/post";
-                var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                //var sJournalId = this.getView().getModel("journal").getProperty("/journalId");
+                var sJournalId = this.getView().getModel("Details").getProperty("/journalEntriesPost/ID");
+                var sCreatedBy = this.getView().getModel("Details").getProperty("/journalEntriesPost/createdBy");
                 var sUrl = sBaseUrl + "/" + sJournalId;
 
                 var oFormData = new FormData();
-                oFormData.append("updatedByUser", "John");
+                oFormData.append("updatedByUser", sCreatedBy);
 
                 $.ajax({
                     url: sUrl,
@@ -239,12 +263,12 @@ sap.ui.define([
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        MessageToast.show("Simulation Successful: " + JSON.stringify(response));
+                        MessageToast.show("Posting Successful: " + JSON.stringify(response));
                         this._refreshTable();
                     }.bind(this),
                     error: function (error) {
                         var errorMessage = error.responseJSON && error.responseJSON.message ? error.responseJSON.message : error.statusText;
-                        MessageToast.show("Simulation failed: " + errorMessage);
+                        MessageToast.show("Posting failed: " + errorMessage);
                     }
                 });
             }

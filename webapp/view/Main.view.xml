@@ -30,7 +30,7 @@
                                 <VBox id="vbox1" justifyContent="End">
                                     <Text
                                         id="text1"
-                                        text="Upload source file"
+                                        text="{app>/Metadata/uploadSourceFile}"
                                         class="largeFont"
                                     />
                                     <Text
@@ -41,7 +41,7 @@
                                 <ToolbarSpacer />
                                 <HBox>
                                     <VBox justifyContent="End">
-                                        <Text text="Template" />
+                                        <Text text="Template Name" />
                                         <HBox >
                                         <Select
                                             id="mySelect"
@@ -227,7 +227,7 @@
                                             <Text text="File Name" />
                                         </Column>
                                         <Column hAlign="Right">
-                                            <Text text="Template" />
+                                            <Text text="Template Name"/>
                                         </Column>
                                         <Column hAlign="Right">
                                             <Text text="Uploaded Date" />

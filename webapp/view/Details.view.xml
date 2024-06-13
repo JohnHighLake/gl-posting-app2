@@ -168,10 +168,18 @@
                                         id="inputFileInfoTable"
                                         fixedLayout="true"
                                         items="{
-								            path: '/items'
+								            path: '/items',
+                                            sorter: { path: 'rowNumber', descending: false }
 							        }"
                                     >
                                         <columns>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="150px"
+                                            >
+                                                <Text text="Row #" />
+                                            </Column>
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
@@ -210,13 +218,26 @@
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
-                                                width="150px"
+                                                width="60px"
                                             >
-                                                <Text text="Entry Creator" />
+                                                <Text text="Debit" />
                                             </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="60px"
+                                            >
+                                                <Text text="Credit" />
+                                            </Column>
+                                            
                                         </columns>
                                         <items>
                                             <ColumnListItem>
+                                                <cells>
+                                                    <Text
+                                                        text="{rowNumber}"
+                                                    />
+                                                </cells>
                                                 <cells>
                                                     <Text
                                                         text="{journalEntryType}"
@@ -242,6 +263,17 @@
                                                         text="{companyCode}"
                                                     />
                                                 </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{debit}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
+                                                        text="{credit}"
+                                                    />
+                                                </cells>
+                                                
                                             </ColumnListItem>
                                         </items>
                                     </Table>
@@ -332,10 +364,18 @@
                                         id="sapPostingTable"
                                         fixedLayout="true"
                                         items="{
-								            path: '/items'
+								            path: '/items',
+                                            sorter: { path: 'rowNumber', descending: false }
 							        }"
                                     >
                                         <columns>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="60px"
+                                            >
+                                                <Text text="Row #" />
+                                            </Column>
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
@@ -388,6 +428,20 @@
                                             <Column
                                                 minScreenWidth="600px"
                                                 demandPopin="false"
+                                                width="60px"
+                                            >
+                                                <Text text="Debit" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
+                                                width="60px"
+                                            >
+                                                <Text text="Credit" />
+                                            </Column>
+                                            <Column
+                                                minScreenWidth="600px"
+                                                demandPopin="false"
                                                 width="100px"
                                             >
                                                 <Text text="Item Text" />
@@ -429,6 +483,11 @@
                                             <ColumnListItem>
                                                 <cells>
                                                     <Text
+                                                        text="{rowNumber}"
+                                                    />
+                                                </cells>
+                                                <cells>
+                                                    <Text
                                                         text="{ 
                                                             path: 'sapError', 
                                                             formatter: '.formatter.formatStatusText' }"
@@ -461,6 +520,12 @@
                                                 </cells>
                                                 <cells>
                                                     <Text text="{glaccount}" />
+                                                </cells>
+                                                <cells>
+                                                    <Text text="{debit}" />
+                                                </cells>
+                                                <cells>
+                                                    <Text text="{credit}" />
                                                 </cells>
                                                 <cells>
                                                     <Text text="{itemText}" />

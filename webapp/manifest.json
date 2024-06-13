@@ -91,7 +91,11 @@
           "earlyRequests": true,
           "groupId": "$direct"
         }
-      }
+      },
+      "app": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "./model/app.json"
+			}
     },
     "resources": {
       "css": [
