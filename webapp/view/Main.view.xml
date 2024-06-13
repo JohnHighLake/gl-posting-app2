@@ -41,26 +41,27 @@
                                 <ToolbarSpacer />
                                 <HBox>
                                     <VBox justifyContent="End">
-                                        <Text text="Template Name" />
+                                        <Text text="Template Type" />
                                         <HBox >
                                         <Select
                                             id="mySelect"
-                                            selectedKey="1"
+                                            selectedKey="Expense Template"
+                                            change="onSelectChange"
                                         >
                                             <core:Item
-                                                key="1"
+                                                key="Expense Template"
                                                 text="Expense Template"
                                             />
                                             <core:Item
-                                                key="2"
+                                                key="Adjustment Posting Template"
                                                 text="Adjustment Posting Template"
                                             />
                                             <core:Item
-                                                key="3"
+                                                key="Payroll Template"
                                                 text="Payroll Template"
                                             />
                                             <core:Item
-                                                key="4"
+                                                key="Reclass Template"
                                                 text="Reclass Template"
                                             />
                                         </Select>
@@ -227,7 +228,7 @@
                                             <Text text="File Name" />
                                         </Column>
                                         <Column hAlign="Right">
-                                            <Text text="Template Name"/>
+                                            <Text text="Template Type"/>
                                         </Column>
                                         <Column hAlign="Right">
                                             <Text text="Uploaded Date" />

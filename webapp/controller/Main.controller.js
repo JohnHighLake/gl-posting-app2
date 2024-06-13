@@ -18,6 +18,18 @@ sap.ui.define([
                 this.getView().setModel(oViewModel, "lineCounterModel");
                 //this._updateTotalCount();
 
+                const oMainData = {
+                    templateType: "Expense Template",
+                    journalEntriesPost : {
+                       ID : "",
+                       createdBy: "",
+                       postingStatus: "",
+                       simulationMode: ""
+                    }
+                };
+                const oMainModel = new JSONModel(oMainData);
+                this.getView().setModel(oMainModel, "Main");
+
                 var oRouter = this.getOwnerComponent().getRouter();
                 oRouter.attachRouteMatched(this._onRouteMatched, this);
             },
@@ -231,12 +243,13 @@ sap.ui.define([
                 }
     
                 var createdByUser = this.byId("createdByUser").getValue();
+                var templateType = this.getView().getModel("Main").getProperty("/templateType");
                 // Retrieve other parameters as needed
     
                 var oFormData = new FormData();
                 oFormData.append("excelFile", oFile);
                 oFormData.append("createdByUser", createdByUser);
-                oFormData.append("template", "expense");
+                oFormData.append("template", templateType);
                 oFormData.append("mode", "online");
                 // Append other parameters to FormData
     
@@ -286,6 +299,22 @@ sap.ui.define([
                 oRouter.navTo("Details", {
                     journalEntriesPostId: oItem.getBindingContext().getProperty("ID")
                 }); 
+            },
+
+            onSelectChange: function (oEvent) {
+                // Get the selected item
+                var oSelectedItem = oEvent.getParameter("selectedItem");
+    
+                // Get the key of the selected item
+                var sSelectedKey = oSelectedItem.getKey();
+
+                this.getView().getModel("Main").setProperty("/templateType", sSelectedKey);
+    
+                // Log the selected key
+                console.log("Selected key:", sSelectedKey);
+    
+                // Perform any additional logic based on the selected key
+                // For example, updating a model property or triggering another action
             }
         });
     });

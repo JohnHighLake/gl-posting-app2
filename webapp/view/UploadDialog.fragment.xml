@@ -17,7 +17,7 @@
                     class="sapUiSmallMarginBegin"
                     change="onFileChange"/>
                 <Label text="Uploaded By" />
-                <Input id="createdByUser" />
+                <Input id="createdByUser" value="Joffy"/>
                 <!-- Add more input fields as needed -->
             </VBox>
         </content>
